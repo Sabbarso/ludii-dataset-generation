@@ -5,7 +5,78 @@
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-purple)
 ![Ludii](https://img.shields.io/badge/Ludii-1.3.14-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
+# Ludii Dataset Generation & Object Detection (Vision Module)
 
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-purple)
+![Ludii](https://img.shields.io/badge/Ludii-1.3.14-green)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
+Computer-vision module of the **Ludii Game Intelligence** platform. It generates a *synthetic, fully-annotated dataset* of board positions from the Ludii game engine and trains a **YOLOv8** detector to recognize chess pieces (class + position) directly from a board image.
+
+Because no annotated dataset of board positions exists, images are **rendered from the Ludii engine** — whose internal state is fully known — giving perfect ground truth at scale.
+
+## Pipeline
+
+```
+Ludii engine (JPype bridge) → random game simulation → board state extraction
+→ image rendering (512×512 PNG) → annotation (Roboflow, YOLOv8 export)
+→ train/val/test split → YOLOv8 training
+```
+
+## Dataset
+
+**3,089 annotated images** across 5 chess variants (different board geometries), **12 classes** (6 piece types × 2 colours).
+
+| Split | Proportion | Images |
+| ----- | ---------- | ------ |
+| Train | 80%        | 2,471  |
+| Val   | 15%        | 463    |
+| Test  | 5%         | 155    |
+
+## Results
+
+| Metric        | Value  |
+| ------------- | ------ |
+| mAP@0.5       | 0.9950 |
+| mAP@0.5:0.95  | 0.9950 |
+| Precision     | 0.9997 |
+| Recall        | 1.0000 |
+
+![YOLOv8 predictions on the synthetic test set](assets/predictions.png)
+
+*Sample predictions across chess variants — each piece detected with its class and confidence score (0.98–1.00).*
+
+## Quick Start
+
+```bash
+# 1. Install Java 17 and place Ludii-1.3.14.jar in the project root
+# 2. Set up the environment
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install JPype1 Pillow numpy ultralytics
+
+# 3. Generate the dataset, then train
+python scripts/generate_dataset.py
+```
+
+```python
+from ultralytics import YOLO
+model = YOLO("yolov8n.pt")
+model.train(data="data.yaml", epochs=50, imgsz=512, batch=32)
+```
+
+## Limitations & Next Steps
+
+- **Synthetic-to-real gap:** trained on rendered images; performance drops on real photos.
+- **Chess-only** for now.
+
+Next: domain randomization in the renderer, stronger augmentation, fine-tuning on real board photos, extending to non-chess Ludii games.
+
+## Resources
+
+[Ludii](https://ludii.games/) · [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) · [Roboflow](https://roboflow.com) · [JPype](https://jpype.readthedocs.io/) · [Pillow](https://python-pillow.org/)
 Computer-vision pipeline of the **Ludii Game Intelligence** platform: it generates a *synthetic, fully-annotated dataset* of board positions from the Ludii game engine and trains a **YOLOv8** detector to recognize pieces (class + position) from a board image.
 
 > **Scope:** this repo covers the vision module only — dataset generation, annotation and object detection (everything up to and including YOLO). The knowledge graph, the QA module and the platform integration are documented in separate repositories.
