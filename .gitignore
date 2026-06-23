@@ -1,0 +1,15 @@
+# Datasets & generated outputs
+output_dataset/
+output/
+runs/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Java
+*.jar
+
+# Models (décommente si trop lourd pour git)
+# *.pt
