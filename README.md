@@ -253,12 +253,6 @@ Directions:
 - Fine-tuning on a small set of real, annotated board images
 - Extending the dataset to non-chess games available in Ludii
 
-## Authors
-
-- **Soukaina Sabbar** — [@Sabbarso](https://github.com/Sabbarso)
-- **Salma Issam** — [@salma12814](https://github.com/salma12814)
-
-ENSIAS — Data & Software Science
 
 ## Resources
 
