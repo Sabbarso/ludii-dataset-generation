@@ -1,10 +1,4 @@
-# Ludii Dataset Generation & Object Detection (Vision Module)
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
-![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white)
-![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-purple)
-![Ludii](https://img.shields.io/badge/Ludii-1.3.14-green)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
 # Ludii Dataset Generation & Object Detection (Vision Module)
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
